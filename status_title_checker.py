@@ -19,24 +19,8 @@ class bcolors:
 def requete(url):
     try:
         req = requests.get(url)
-
-        # change encode for display
-        if req.encoding == 'ISO-8859-1':
-            encodings = requests.utils.get_encodings_from_content(req.text)
-            # print(encodings)
-            if encodings:
-                encoding = encodings[0]
-            else:
-                encoding = req.apparent_encoding
-            #     # global encode_content
-            encode_content = req.content.decode(encoding, 'replace')
-        # print(encode_content)
-
         title_rule = re.compile(r'(?<=\<title\>)(?:.|\n)+?(?=\<)')
-        title_result = title_rule.findall(encode_content)
-        # print(title_result)
-        # return url, r.status_code
-        # print(req.status_code, title_result)
+        title_result = title_rule.findall(req.text)
         return url, req.status_code, title_result
     except:
         pass
